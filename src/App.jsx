@@ -8,6 +8,8 @@ import Question from './Components/Question'
 function App() {
   const [gameStart, setGameStarted] = useState(false)
   const [apiResArr, setaApiResArr] = useState([])
+  const [correctCount, setCorrectCount] = useState(() => checkCorrectAnswers())
+
 
   function handleStartQuiz(){
     setGameStarted(prevGameSetting => !prevGameSetting)
@@ -56,6 +58,16 @@ function App() {
           else return res
         })
       })
+  }
+  
+  function checkCorrectAnswers(){
+    let count = 0;
+    for(let i; i < apiResArr.length; i++){
+      if(apiResArr.correctIndex === selectedIndex)
+        count++;
+    }
+    console.log(count)
+    return count;
   }
 
   console.log(apiResArr)
