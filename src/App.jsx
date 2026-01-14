@@ -48,8 +48,8 @@ function App() {
       return (
         <Question
           question={data.question}
-             responses={data.responses}
-             correctAnswer={data.correctAnswer} 
+          responses={data.responses}
+          correctAnswer={data.correctAnswer} 
         />
       )
     })
