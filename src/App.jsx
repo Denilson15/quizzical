@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import yellowBlob from './assets/yellowBlob.png'
-import blueBlob from './assets/blueBlobs.png'
+import Header from './Components/Header'
+import Footer from './Components/Footer'
 import StartScreen from './Components/StartScreen'
 import Question from './Components/Question'
 
@@ -34,40 +34,56 @@ function App() {
     .then(data => {
       const questionResArray = data.results.map((index) => {
         return {
-        question: index.question,
-        responses: shuffle([index.correct_answer, ...index.incorrect_answers]),
-        correctAnswer: index.correct_answer
+          question: index.question,
+          responses: shuffle([index.correct_answer, ...index.incorrect_answers]),
+          correctAnswer: index.correct_answer,
+          correctIndex: index.responses.indexOf(correctAnswer),
+          selectedIndex: null
         }
       })
       setaApiResArr(questionResArray)
     })
   }, [])
 
+  function handleAnswerButton(questionIndex, index){
+      setaApiResArr(prevArr => {
+        return prevArr.map((res, i) => {
+          if (questionIndex === i){
+            return (
+              {...res, selectedIndex: index}
+            )
+          }
+          else return res
+        })
+      })
+  }
+
   console.log(apiResArr)
-    const questionsArray = apiResArr.map(data =>{
+    const questionsArray = apiResArr.map((data, index) =>{
       return (
         <Question
           question={data.question}
+          questionIndex={index}
           responses={data.responses}
           correctAnswer={data.correctAnswer} 
+          selectedIndex={data.selectedIndex}
+          handleAnswerButton={handleAnswerButton}
         />
       )
     })
+
+
   
     console.table(apiResArr[0])
 
   return (
     <>
-      <header>
-        <img src={yellowBlob}  className="yellowBlob"/>
-      </header>
+      <Header />
       <main>
         <StartScreen handleStartQuiz={handleStartQuiz} gameStart={gameStart}/>
         {gameStart && questionsArray}
       </main >
-      <footer>
-        <img src={blueBlob} className='blueBlob'/>
-      </footer>
+      <Footer />
     </>
   )
 }

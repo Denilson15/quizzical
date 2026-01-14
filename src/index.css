@@ -8,18 +8,24 @@ body{
   color: #293264;
   font-family: "Karla", sans-serif;
   overflow: hidden;
+  height: 100vh;
+  display: grid;
+  align-items: center;
+  justify-content: center;
 }
 
 .blueBlob{
   position: absolute;
   bottom: 0;
   left: 0;
+  z-index: -1;
 }
 
 .yellowBlob{
   position: absolute;
   top: 0;
   right: 0;
+  z-index: -1;
 }
 
 main{
@@ -27,7 +33,7 @@ main{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  
 }
 
 .start-btn{
@@ -61,19 +67,20 @@ main{
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid #DBDEF0;
-  max-width: 400px;
+  width: 100%;
 }
 
 .question-response-section h2{
   text-align: left;
   margin: 1.1rem 0;
+  font-size: 1rem;
 }
 
 /* the buttons inside the question component*/
-.response-button-container{
+.answers-container{
   display: flex;
   justify-content: flex-start;
-  margin-bottom: 1.1rem;
+  margin-bottom: 1rem;
   gap: 1rem;
 }
 
@@ -81,9 +88,17 @@ main{
 .response-button{
   background-color: #F5F7FB;
   color: #4D5B9E;
-  width: 66px;
-  height: 22px;
+  /* width: 66px; */
+  /* height: 22px; */
   border-radius: 8px;
   font-size: 0.64rem;
   border: 1px solid #4D5B9E;
+  padding: 0.35rem 1rem;
+}
+
+/* the button after being selected */
+
+.response-button.selected{
+  background-color: #D6DBF5;
+  border: none;
 }
