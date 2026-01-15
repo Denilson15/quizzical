@@ -1,9 +1,13 @@
 import blueBlob from '../assets/blueBlob.png'
 
-export default function Header(){
+export default function Footer(props){
     return (
-        <header>
+        <footer>
             <img src={blueBlob}  className="blueBlob"/>
-        </header>
+            <div className='footer'>
+                {props.isChecked && <p>You scored {props.correctCount}/5 correct answers</p>}
+                <button className='footer-button' onClick={props.revealAnswers}>{props.isChecked ? "Play again" : "Check answers"}</button>
+            </div>
+        </footer>
     )
 }

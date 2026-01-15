@@ -8,8 +8,7 @@ import Question from './Components/Question'
 function App() {
   const [gameStart, setGameStarted] = useState(false)
   const [apiResArr, setaApiResArr] = useState([])
-  const [correctCount, setCorrectCount] = useState(() => checkCorrectAnswers())
-
+  const [isChecked, setIsChecked] = useState(false)
 
   function handleStartQuiz(){
     setGameStarted(prevGameSetting => !prevGameSetting)
@@ -35,11 +34,13 @@ function App() {
     .then(res => res.json())
     .then(data => {
       const questionResArray = data.results.map((index) => {
+        const responses = shuffle([index.correct_answer, ...index.incorrect_answers])
+        const correctIndex = responses.indexOf(index.correct_answer)
         return {
           question: index.question,
-          responses: shuffle([index.correct_answer, ...index.incorrect_answers]),
+          responses: responses,
           correctAnswer: index.correct_answer,
-          correctIndex: index.responses.indexOf(correctAnswer),
+          correctIndex: correctIndex,
           selectedIndex: null
         }
       })
@@ -62,15 +63,28 @@ function App() {
   
   function checkCorrectAnswers(){
     let count = 0;
-    for(let i; i < apiResArr.length; i++){
-      if(apiResArr.correctIndex === selectedIndex)
+    for(let i = 0; i < apiResArr.length; i++){
+      if(apiResArr[i].correctIndex === apiResArr[i].selectedIndex)
         count++;
     }
-    console.log(count)
+    
     return count;
   }
 
-  console.log(apiResArr)
+  const correctCount = checkCorrectAnswers()
+
+  function revealAnswers(){
+    setIsChecked(prevCheck => !prevCheck)
+    for(let i = 0; i < apiResArr.length; i++){
+      if(apiResArr[i].correctIndex === apiResArr[i].selectedIndex){
+        console.log("this selection is correct")
+      }
+      else{
+        console.log("this seletion is wrong")
+      }
+    }
+  }
+
     const questionsArray = apiResArr.map((data, index) =>{
       return (
         <Question
@@ -80,13 +94,11 @@ function App() {
           correctAnswer={data.correctAnswer} 
           selectedIndex={data.selectedIndex}
           handleAnswerButton={handleAnswerButton}
+          isChecked={isChecked}
         />
       )
     })
 
-
-  
-    console.table(apiResArr[0])
 
   return (
     <>
@@ -95,7 +107,12 @@ function App() {
         <StartScreen handleStartQuiz={handleStartQuiz} gameStart={gameStart}/>
         {gameStart && questionsArray}
       </main >
-      <Footer />
+      {gameStart && 
+        <Footer 
+          correctCount={correctCount}
+          isChecked={isChecked}
+          revealAnswers={revealAnswers}
+        />}
     </>
   )
 }

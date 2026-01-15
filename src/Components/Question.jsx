@@ -7,11 +7,27 @@ import { useState } from 'react'
 
 export default function Question(props){
 
+    function assignClassName(index){
+        if(props.isChecked && props.selectedIndex === index){
+            return "response-button correct"
+        }
+        else if(props.isChecked && props.index !== index){
+            return "response-button incorrect"
+        }
+        else if(props.isChecked){
+            return "response-button transparent"
+        }
+        else if(props.selectedIndex === index){
+            return "response-button selected"
+        }
+        else return "response-button"
+    }
+
     const buttonsArray = props.responses.map((res, index) => {
         return <button key={res} 
-                className={props.selectedIndex === index ? "response-button selected" : "response-button"} 
-                onClick={() => props.handleAnswerButton(props.questionIndex, index)}>
-                    {decode(res)}
+                    className={assignClassName(index)} 
+                    onClick={() => props.handleAnswerButton(props.questionIndex, index)}>
+                        {decode(res)}
                 </button>
     })
 
