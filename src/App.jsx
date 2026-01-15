@@ -4,15 +4,18 @@ import Header from './Components/Header'
 import Footer from './Components/Footer'
 import StartScreen from './Components/StartScreen'
 import Question from './Components/Question'
+import blueBlob from './assets/blueBlob.png'
 
 function App() {
   const [gameStart, setGameStarted] = useState(false)
   const [apiResArr, setaApiResArr] = useState([])
   const [isChecked, setIsChecked] = useState(false)
+  const [isGameOver, setGameOver] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [isBufferActive, setIsBufferActive] = useState(false)
 
   function handleStartQuiz(){
     setGameStarted(prevGameSetting => !prevGameSetting)
-    console.log("button clicked")
   }
 
   function shuffle(array) {
@@ -30,9 +33,11 @@ function App() {
   }
 
   useEffect(() => {
+    setIsLoading(true)
     fetch("https://opentdb.com/api.php?amount=5&category=9&difficulty=medium&type=multiple")
     .then(res => res.json())
     .then(data => {
+      console.log(data)
       const questionResArray = data.results.map((index) => {
         const responses = shuffle([index.correct_answer, ...index.incorrect_answers])
         const correctIndex = responses.indexOf(index.correct_answer)
@@ -45,8 +50,12 @@ function App() {
         }
       })
       setaApiResArr(questionResArray)
+      setIsLoading(false)
     })
-  }, [])
+    .catch(err => console.error(err))
+    .finally(() => setIsLoading(false))
+
+  }, [isGameOver])
 
   function handleAnswerButton(questionIndex, index){
       setaApiResArr(prevArr => {
@@ -75,14 +84,6 @@ function App() {
 
   function revealAnswers(){
     setIsChecked(prevCheck => !prevCheck)
-    for(let i = 0; i < apiResArr.length; i++){
-      if(apiResArr[i].correctIndex === apiResArr[i].selectedIndex){
-        console.log("this selection is correct")
-      }
-      else{
-        console.log("this seletion is wrong")
-      }
-    }
   }
 
     const questionsArray = apiResArr.map((data, index) =>{
@@ -93,11 +94,21 @@ function App() {
           responses={data.responses}
           correctAnswer={data.correctAnswer} 
           selectedIndex={data.selectedIndex}
+          correctIndex={data.correctIndex}
           handleAnswerButton={handleAnswerButton}
           isChecked={isChecked}
         />
       )
     })
+
+    function restartGame(){
+      setIsBufferActive(true)
+      setGameOver(prevSetting => !prevSetting)
+      setIsChecked(false)
+      setTimeout(()=>{
+        setIsBufferActive(false)
+      }, 5000)
+    }
 
 
   return (
@@ -105,13 +116,20 @@ function App() {
       <Header />
       <main>
         <StartScreen handleStartQuiz={handleStartQuiz} gameStart={gameStart}/>
-        {gameStart && questionsArray}
+        {(gameStart && !isLoading) && questionsArray}
+        {(gameStart && isLoading) &&
+        <div className="loader-container">
+          <div className="spinner"></div>
+        </div>}
       </main >
-      {gameStart && 
+      <img src={blueBlob}  className="blueBlob"/>
+      {(gameStart && !isLoading) && 
         <Footer 
           correctCount={correctCount}
           isChecked={isChecked}
           revealAnswers={revealAnswers}
+          restartGame={restartGame}
+          isBufferActive={isBufferActive}
         />}
     </>
   )

@@ -8,10 +8,10 @@ import { useState } from 'react'
 export default function Question(props){
 
     function assignClassName(index){
-        if(props.isChecked && props.selectedIndex === index){
+        if(props.isChecked && index === props.correctIndex){
             return "response-button correct"
         }
-        else if(props.isChecked && props.index !== index){
+        else if(props.isChecked && index === props.selectedIndex && index !== props.correctIndex){
             return "response-button incorrect"
         }
         else if(props.isChecked){
@@ -26,7 +26,9 @@ export default function Question(props){
     const buttonsArray = props.responses.map((res, index) => {
         return <button key={res} 
                     className={assignClassName(index)} 
-                    onClick={() => props.handleAnswerButton(props.questionIndex, index)}>
+                    onClick={() => props.handleAnswerButton(props.questionIndex, index)}
+                    disabled={props.isChecked}
+                >
                         {decode(res)}
                 </button>
     })
