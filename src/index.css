@@ -7,11 +7,12 @@ body{
   background-color: #F5F7FB;
   color: #293264;
   font-family: "Karla", sans-serif;
-  overflow: hidden;
+  overflow: auto;
   height: 100vh;
   display: grid;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 #root {
@@ -29,14 +30,14 @@ button{
 }
 
 .blueBlob{
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   z-index: -1;
 }
 
 .yellowBlob{
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   z-index: -1;
@@ -180,8 +181,8 @@ footer button.buffer{
 
 @media (max-width: 350px){
   body{
-    overflow: auto;
-  }
+    max-width: 300px
+  };
 }
 
 @media (min-width: 500px){
@@ -205,8 +206,5 @@ footer button.buffer{
 @media (min-width: 1200px){
   html{
     font-size: 1.7rem;
-  }
-  body{
-    overflow: auto;
   }
 }
