@@ -1,9 +1,9 @@
-export default function StartScreen(props){
+export default function StartScreen({handleStartQuiz}){
     return(
-        <section className={props.gameStart ? "hide-start-screen" : "start-screen"} >
+        <section className={"start-screen"} >
             <h1>Quizzical</h1>
             <p>Trivia for fun!</p>
-            <button className="start-btn" onClick={props.handleStartQuiz}>Start quiz</button>
+            <button className="start-btn" onClick={handleStartQuiz}>Start quiz</button>
         </section>
     )
 }

@@ -14,7 +14,7 @@ function App() {
   const [isBufferActive, setIsBufferActive] = useState(false)
 
   function handleStartQuiz(){
-    setGameStarted(prevGameSetting => !prevGameSetting)
+    setGameStarted(true)
   }
 
   function shuffle(array) {
@@ -49,7 +49,6 @@ function App() {
         }
       })
       setaApiResArr(questionResArray)
-      setIsLoading(false)
     })
     .catch(err => console.error(err))
     .finally(() => setIsLoading(false))
@@ -114,7 +113,7 @@ function App() {
     <>
       <Header />
       <main>
-        <StartScreen handleStartQuiz={handleStartQuiz} gameStart={gameStart}/>
+        {!gameStart && <StartScreen handleStartQuiz={handleStartQuiz}/>}
         {(gameStart && !isLoading) && questionsArray}
         {(gameStart && isLoading) &&
         <div className="loader-container">
