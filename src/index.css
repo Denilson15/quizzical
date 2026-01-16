@@ -177,3 +177,33 @@ footer button.buffer{
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+@media (max-width: 350px){
+  body{
+    overflow: auto;
+  }
+}
+
+@media (min-width: 500px){
+  html{
+    font-size: 1.15rem;
+  }
+}
+
+@media (min-width: 600px){
+  html{
+    font-size: 1.3rem;
+  }
+}
+
+@media (min-width: 700px){
+  html{
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 1200px){
+  html{
+    font-size: 2rem;
+  }
+}
