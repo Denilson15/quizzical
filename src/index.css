@@ -204,6 +204,9 @@ footer button.buffer{
 
 @media (min-width: 1200px){
   html{
-    font-size: 2rem;
+    font-size: 1.7rem;
+  }
+  body{
+    overflow: auto;
   }
 }
