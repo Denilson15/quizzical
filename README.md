@@ -1,16 +1,48 @@
-# React + Vite
+# 🧠 Quizzical
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A trivia game built with **React** using the Open Trivia Database (OpenTDB) API.  
+This project was completed as my **first solo React project**, where I was given only a design and asked to implement the full application logic independently.
 
-Currently, two official plugins are available:
+## 🔗 Live Demo
+https://quizzical-trivia-knowledge.netlify.app/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📁 Repository
+https://github.com/Denilson15/quizzical
 
-## React Compiler
+## ⚙️ Features
+- Fetches trivia questions from the OpenTDB API
+- Multiple-choice quiz flow with score tracking
+- Conditional rendering for loading, gameplay, and results
+- Ability to restart the quiz and fetch a new set of questions
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🧩 Technical Details
+- Built with **React** (functional components + hooks)
+- Uses `useState` and `useEffect` for state and side-effect management
+- Handles API fetching and UI state transitions
+- Deployed using **Netlify**
 
-## Expanding the ESLint configuration
+## ⚠️ Known Edge Case
+An edge case occurs if the user starts the quiz before the API response is fully received.  
+In rare cases, the OpenTDB API may return an empty response (`response_code: 5`), which can require additional user interaction before the game behaves as intended.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+This was a valuable learning experience around:
+- Data readiness vs loading state
+- Handling unreliable API responses
+- Preventing premature user interaction in UI-driven applications
+
+## 📚 What I Learned
+- Structuring React components around UI state
+- Managing API data and conditional rendering
+- Debugging race conditions between user actions and network responses
+
+## 📝 Notes
+The goal of this project was to strengthen my ability to reason through problems and implement solutions independently.
+
+## 🚧 Future Improvements
+- Disable the start button until questions are fully loaded
+- Add explicit error handling for API response codes
+- Improve UX around loading and retry states
+
+---
+
+Feedback and suggestions are welcome.
